@@ -9,7 +9,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script src="config.js?v=9f3befba"></script>
+<script src="config.js?v=fd132531"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;600&display=swap" rel="stylesheet">
@@ -304,7 +304,9 @@ function api(action, data) {
     .then(function (j) {
       if (!j.ok) {
         if (j.relogin) { S.token = ''; localStorage.removeItem('jm_token'); setTimeout(tampilLogin, 50); }
-        throw new Error(j.error || 'Terjadi kesalahan.');
+        var e = new Error(j.error || 'Terjadi kesalahan.');
+        if (/^Perintah tidak dikenal/.test(e.message)) { e = new Error(admin() ? 'Server Apps Script belum diperbarui ke versi terbaru.' : 'Fitur ini belum aktif karena server aplikasi belum diperbarui. Hubungi admin.'); e.serverLama = true; }
+        throw e;
       }
       return j.data;
     });
@@ -517,11 +519,27 @@ function render() {
   S.hal = h;
   $$('#nav a').forEach(function (a) { a.classList.toggle('on', a.dataset.h === h); });
   var v = $('#view');
+  if (serverLama() && ['jurnal', 'rencana', 'piket', 'rekap', 'uks'].indexOf(h) >= 0) { v.innerHTML = kartuServerLama(); window.scrollTo(0, 0); return; }
   v.innerHTML = '<div class="load"><div><div class="spin"></div>Memuat…</div></div>';
   Promise.resolve().then(function () { return HAL[h](v); }).catch(function (e) {
-    v.innerHTML = '<div class="card"><div class="empty">' + esc(e.message) + '<br><br><button class="btn btn-s" onclick="render()">Coba lagi</button></div></div>';
+    v.innerHTML = e.serverLama ? kartuServerLama() : '<div class="card"><div class="empty">' + esc(e.message) + '<br><br><button class="btn btn-s" onclick="render()">Coba lagi</button></div></div>';
   });
   window.scrollTo(0, 0);
+}
+function serverLama() { return !!S.b && !('hariIni' in S.b); }
+function kartuServerLama() {
+  if (!admin()) return '<div class="card"><div class="card-h"><div><h3>Fitur ini belum aktif</h3></div></div><div class="card-b" style="line-height:1.6">' +
+    'Jurnal KBM, rencana pekanan, presensi pengajar, UKS, dan rekap presensi sudah dibuat, tetapi belum bisa dipakai karena server aplikasi belum diperbarui oleh admin. ' +
+    'Silakan hubungi admin. Menu lain tetap bisa dipakai seperti biasa.</div></div>';
+  return '<div class="card"><div class="card-h"><div><h3>Server belum diperbarui ke Tahap 2</h3><p>Tampilan sudah versi baru, tetapi Apps Script yang terpasang masih versi Tahap 1. Karena itu halaman Diniyah belum bisa memuat data.</p></div></div>' +
+    '<div class="card-b" style="line-height:1.65"><b>Lakukan sekali (±10 menit):</b><ol style="margin:8px 0 12px;padding-left:20px">' +
+    '<li>Buka Sheet <b>MTQTS-Inti</b> → menu <b>Ekstensi → Apps Script</b>.</li>' +
+    '<li>Di file <b>Code.gs</b>, hapus seluruh isinya, tempel <b>Code.gs</b> terbaru dari repo <b>jurnal-mtqts-server</b>, lalu simpan (Ctrl+S).</li>' +
+    '<li>Di atas editor, pilih fungsi <b>pasangTahap2</b> → <b>Jalankan</b>. Saat diminta, izinkan akses <b>Google Drive</b> (Lanjutan → Buka Jurnal MTQTS → Izinkan). Izin ini untuk membuat file jurnal semester di folder MTQTS-Inti.</li>' +
+    '<li>Klik <b>Terapkan → Kelola deployment</b> → ikon pensil → <b>Versi: Versi baru</b> → <b>Terapkan</b>. Alamat /exec tidak berubah.</li>' +
+    '<li>Muat ulang halaman ini.</li></ol>' +
+    '<span class="muted">Sampai langkah ini selesai, pengguna lain melihat pesan bahwa fitur belum aktif. Menu Tahap 1 tetap berjalan normal.</span>' +
+    '<div style="margin-top:12px"><button class="btn btn-s btn-sm" onclick="location.reload()">Muat ulang</button></div></div></div>';
 }
 function head(judul, sub, act) {
   return '<div class="ph"><div><h1>' + judul + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div><div class="act">' + (act || '') + '</div></div>';
@@ -1244,6 +1262,7 @@ function bukaTanpaJadwal(h) { return '<div class="card"><div class="empty">' + e
 
 function isiBeranda(el) {
   if (!S.b.periodeAktifId) { el.innerHTML = ''; return; }
+  if (serverLama()) { el.innerHTML = kartuServerLama(); return; }
   el.innerHTML = '<div class="card"><div class="empty"><div class="spin"></div>Memuat kegiatan hari ini…</div></div>';
   return ambilHari().then(function (h) {
     var me = S.b.me, html = '', pantau = '', saya = blokSaya(h), sudah = function (b) { return !!cariJ(h, b.id); };
