@@ -9,7 +9,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script src="config.js?v=790d57fe"></script>
+<script src="config.js?v=2a6289d7"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;600&display=swap" rel="stylesheet">
@@ -127,6 +127,38 @@ select.in.sm{padding-right:26px}
   .pr .sg.teks button{padding:0 4px}
 }
 @media(min-width:961px){.bnav{display:none}}
+@media(max-width:640px){
+  .dates input{flex:1 1 140px;min-width:0}
+  .t[data-hp=tabel] .kx,.t[data-hp=tabel] tr.det>td:first-child{display:none}
+  table[data-hp=ringkas],table[data-hp=form]{display:block;width:100%}
+  table[data-hp=ringkas] thead,table[data-hp=form] thead{display:none}
+  table[data-hp=ringkas] tbody,table[data-hp=form] tbody{display:block}
+  table[data-hp=ringkas] tr,table[data-hp=form] tr{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;padding:12px 15px;border-bottom:1px solid var(--line);position:relative}
+  table[data-hp=ringkas] tr:last-child,table[data-hp=form] tr:last-child{border-bottom:0}
+  table[data-hp] td{border:0}
+  table[data-hp=ringkas] td,table[data-hp=form] td{display:block;padding:0;min-width:0;text-align:left;position:static;background:none;max-width:none;width:auto!important;white-space:normal!important}
+  table[data-hp] td.ku{flex:0 1 auto;text-align:right}
+  table[data-hp] td.ku1{flex:1 1 0;text-align:left;font-weight:600}
+  table[data-hp] td.ks{flex-basis:100%;order:2;font-size:12.5px;color:var(--ink3)}
+  table[data-hp] td.ks .chip{margin-top:2px}
+  table[data-hp=ringkas] td.kx{display:none;order:3}
+  table[data-hp=ringkas] tr.buka td.kx:not(.kk){display:flex;flex-basis:100%;align-items:baseline;gap:12px;font-size:13px;padding-top:6px;border-top:1px dashed var(--line);margin-top:2px}
+  table[data-hp=ringkas] tr.buka td.kx:before{content:attr(data-l);color:var(--ink3);font-weight:600;flex:0 0 32%}
+  table[data-hp=ringkas] td.kx .kv{flex:1;min-width:0;overflow-wrap:anywhere}
+  table[data-hp=ringkas] td.kx .kv .btn{margin:0 6px 4px 0}
+  table[data-hp=ringkas] tr.buka td.kx .sub{display:block}
+  table[data-hp=ringkas] tr.ada-x,table[data-hp=ringkas] tr.click{padding-right:38px;cursor:pointer}
+  table[data-hp=ringkas] tr.ada-x:after,table[data-hp=ringkas] tr.click:after{content:"";position:absolute;right:17px;top:21px;width:7px;height:7px;border-right:2px solid var(--ink3);border-bottom:2px solid var(--ink3);transform:rotate(45deg);transition:transform .15s}
+  table[data-hp=ringkas] tr.click:after{transform:rotate(-45deg)}
+  table[data-hp=ringkas] tr.buka:after{transform:rotate(225deg);top:25px}
+  table[data-hp=ringkas] tr.buka{background:#faf9f6}
+  table[data-hp=form] tr:after{content:"";flex-basis:100%;order:1}
+  table[data-hp=form] td.kf{flex:1 1 150px;display:flex;flex-direction:column;gap:4px;order:2}
+  table[data-hp=form] td.kf:before{content:attr(data-l);font-size:11.5px;font-weight:700;color:var(--ink3)}
+  table[data-hp=form] td.kf .in{width:100%}
+  .mx[data-hp=ringkas] td{font-size:13px}
+  .mx[data-hp=ringkas] td.k-A:before,.mx[data-hp=ringkas] td.k-S:before{color:var(--ink3)}
+}
 .bnav a{display:flex;align-items:center;gap:7px;height:44px;padding:0 13px;border-radius:99px;color:var(--ink3);font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:0;background:none}
 .bnav a svg{width:21px;height:21px;flex:none}
 .bnav a span{display:none}
@@ -228,7 +260,7 @@ table.t{width:100%;border-collapse:collapse}
 .pk div.off{color:var(--ink3);background:var(--soft);border-color:transparent}
 .note{border-left:3px solid var(--line2);padding:4px 0 4px 12px;color:var(--ink2);margin:6px 0 14px;line-height:1.55}
 pre.tsv{background:var(--soft);padding:10px;border-radius:8px;font-size:12px;overflow:auto}
-.dates{display:flex;gap:6px;overflow-x:auto;padding-bottom:3px;margin-bottom:14px;-webkit-overflow-scrolling:touch;align-items:center}
+.dates{display:flex;gap:6px;flex-wrap:wrap;padding-bottom:3px;margin-bottom:14px;align-items:center}
 .dates button{flex:none;border:0;background:#fff;border-radius:12px;padding:9px 14px;font-weight:700;font-size:13px;cursor:pointer;color:var(--ink2);min-height:40px}
 .dates button.on{background:var(--hd);color:#fff}
 .dates input{flex:none;width:auto}
@@ -588,6 +620,40 @@ function gantiSandi(wajib) {
   });
 }
 
+function siapkanTabel(root) {
+  $$('table[data-hp]:not([data-siap])', root).forEach(function (t) {
+    t.dataset.siap = '1';
+    var mode = t.dataset.hp, u = (t.dataset.u || '0').split(',').map(Number), sb = (t.dataset.s || '').split(',').filter(String).map(Number);
+    var lb = $$('thead th', t).map(function (th) { return th.innerText.replace(/\s+/g, ' ').trim(); });
+    $$('thead th', t).forEach(function (th, i) { if (u.indexOf(i) < 0) th.classList.add('kx'); });
+    $$('tbody > tr', t).forEach(function (tr) {
+      if (tr.classList.contains('det')) return;
+      var tds = $$(':scope > td', tr), ada = false;
+      if (tds.length === 1 && tds[0].colSpan > 1) { tds[0].className += ' ku ku1'; return; }
+      var pertama = true;
+      tds.forEach(function (td, i) {
+        td.setAttribute('data-l', lb[i] || '');
+        if (u.indexOf(i) >= 0) { td.classList.add('ku'); if (pertama && (td.textContent.trim() || !td.querySelector('input[type=checkbox]'))) { td.classList.add('ku1'); pertama = false; } }
+        else if (sb.indexOf(i) >= 0) td.classList.add('ks');
+        else {
+          td.classList.add(mode === 'form' ? 'kf' : 'kx');
+          if (mode === 'ringkas') { var kv = document.createElement('div'); kv.className = 'kv'; while (td.firstChild) kv.appendChild(td.firstChild); td.appendChild(kv); }
+          var kosong = !td.textContent.trim() && !td.querySelector('input,select,button,textarea') || t.dataset.kosong && (td.classList.contains('muted') || td.textContent.trim() === '·');
+          if (kosong) td.classList.add('kk'); else ada = true;
+        }
+      });
+      if (mode === 'ringkas' && ada) {
+        tr.classList.add('ada-x');
+        if (!tr.classList.contains('click')) tr.addEventListener('click', function (e) {
+          if (!window.matchMedia('(max-width:640px)').matches || e.target.closest('input,select,button,a,textarea,label')) return;
+          tr.classList.toggle('buka');
+        });
+      }
+    });
+  });
+}
+new MutationObserver(function () { siapkanTabel(document); }).observe(document.documentElement, { childList: true, subtree: true });
+
 var HAL = {};
 function render() {
   if (S.b) terapkanTema((S.b.pengaturan || {}).temaWarna);
@@ -729,7 +795,7 @@ function tampilPekan(p) {
 HAL.semester = function (v) {
   var ps = S.b.periode.slice().sort(function (a, b) { return a.id < b.id ? 1 : -1; });
   v.innerHTML = head('Semester & Kalender', 'Tanggal KBM, rentang libur/ujian, dan pekan efektif tiap semester.', '<button class="btn btn-p" id="bBaru">' + ic('plus') + 'Siapkan semester baru</button>') +
-    '<div class="card"><div class="tw"><table class="t"><thead><tr><th>Semester</th><th>KBM</th><th>Pekan efektif</th><th>Status</th><th></th></tr></thead><tbody>' +
+    '<div class="card"><div class="tw"><table class="t" data-hp="ringkas" data-u="0,3"><thead><tr><th>Semester</th><th>KBM</th><th>Pekan efektif</th><th>Status</th><th></th></tr></thead><tbody>' +
     (ps.length ? ps.map(function (p) {
       var n = pekanEf(p).filter(function (x) { return x.efektif; }).length;
       return '<tr><td><b>' + esc(namaP(p)) + '</b></td><td>' + fmtTgl(p.mulai) + ' – ' + fmtTgl(p.selesai) + '</td><td>' + n + ' pekan' +
@@ -804,7 +870,7 @@ HAL.rombel = function (v) {
     var selU = function (k, val) { return '<select class="in sm" data-k="' + k + '">' + opsi(us, val, function (u) { return u.nama; }, '— Pilih —') + '</select>'; };
     var aktifG = function (g) { return g.aktif !== 'FALSE' && g.aktif !== false; };
     v.innerHTML = head('Wali & Pembina', 'Wali kelas, label kurikulum, dan musyrif untuk ' + esc(namaP(d.P[S.per])) + '.', pilihPer()) +
-      '<div class="card" id="cK"><div class="card-h"><div><h3>Kelas</h3><p>Label kurikulum dipakai saat menyalin rencana pekanan dari tahun sebelumnya.</p></div><button class="btn btn-p btn-sm" data-simpan="Rombel">Simpan</button></div><div class="tw"><table class="t"><thead><tr><th>Kelas</th><th>Santri</th><th>Wali kelas</th><th>Kurikulum</th></tr></thead><tbody>' +
+      '<div class="card" id="cK"><div class="card-h"><div><h3>Kelas</h3><p>Label kurikulum dipakai saat menyalin rencana pekanan dari tahun sebelumnya.</p></div><button class="btn btn-p btn-sm" data-simpan="Rombel">Simpan</button></div><div class="tw"><table class="t" data-hp="form" data-u="0,1"><thead><tr><th>Kelas</th><th>Santri</th><th>Wali kelas</th><th>Kurikulum</th></tr></thead><tbody>' +
       kelasUrut().map(function (k) { var r = rb[k.id] || {}; return '<tr data-id="' + k.id + '"><td><b>' + esc(k.nama) + '</b></td><td>' + (jml['kelas|' + k.id] || 0) + '</td><td>' + selU('waliId', r.waliId) + '</td><td><select class="in sm" data-k="kurikulum">' + opsi([{ id: 'baru', n: 'Kurikulum baru' }, { id: 'lama', n: 'Kurikulum lama' }], r.kurikulum, function (x) { return x.n; }, '— Belum —') + '</select></td></tr>'; }).join('') +
       '</tbody></table></div></div><div class="cols">' +
       ['halaqah', 'asrama'].map(function (j) {
@@ -844,7 +910,7 @@ HAL.penempatan = function (v) {
       '<select class="in sm" id="fh">' + opsi(hs, f.h, function (h) { return h.nama; }, 'Semua halaqah') + '</select>' +
       '<select class="in sm" id="fa">' + opsi(as, f.a, function (a) { return a.nama; }, 'Semua asrama') + '</select></div></div>' +
       '<div class="bar" id="massal"><span class="muted" id="nPil">0 dipilih</span><select class="in sm" id="mk"><option value="kelasId">Pindahkan ke kelas</option><option value="halaqahId">Pindahkan ke halaqah</option><option value="asramaId">Pindahkan ke asrama</option></select><select class="in sm" id="mv"></select><button class="btn btn-s btn-sm" id="bTerap">Terapkan</button></div>' +
-      '<div class="tw"><table class="t"><thead><tr><th style="width:30px"><input type="checkbox" id="semua"></th><th>Santri</th><th>Kelas</th><th>Halaqah</th><th>Asrama</th></tr></thead><tbody id="tb"></tbody></table></div></div>' +
+      '<div class="tw"><table class="t" data-hp="form" data-u="0,1"><thead><tr><th style="width:30px"><input type="checkbox" id="semua"></th><th>Santri</th><th>Kelas</th><th>Halaqah</th><th>Asrama</th></tr></thead><tbody id="tb"></tbody></table></div></div>' +
       '<div class="sticky hide" id="stk"><span id="nUbah"></span><div><button class="btn btn-g btn-sm" id="bBatal" style="color:#fff">Batalkan</button> <button class="btn btn-s btn-sm" id="bSimpan">Simpan perubahan</button></div></div>';
     ikatPer();
     var isiMv = function () {
@@ -910,7 +976,7 @@ HAL.pengampuan = function (v) {
         var ps = s.pengampuan.filter(function (p) { return p.kelasId === k.id; }).sort(function (a, b) { return (+(d.Mp[a.mapelId] || {}).urutan || 99) - (+(d.Mp[b.mapelId] || {}).urutan || 99); });
         var tot = ps.reduce(function (a, p) { return a + (+p.jpPekan || 0); }, 0);
         return '<div class="card"><div class="card-h"><div><h3>' + esc(k.nama) + '</h3><p>' + ps.length + ' mapel' + (tot ? ' · ' + tot + ' JP/pekan' : '') + '</p></div><button class="btn btn-s btn-sm" data-tambah="' + k.id + '">' + ic('plus') + 'Mapel</button></div>' +
-          '<div class="tw"><table class="t"><thead><tr><th>Mapel</th><th>Pengajar</th><th>Kitab panduan</th><th class="r">JP</th><th class="r">Terjadwal</th></tr></thead><tbody>' +
+          '<div class="tw"><table class="t" data-hp="ringkas" data-u="0,3" data-s="1"><thead><tr><th>Mapel</th><th>Pengajar</th><th>Kitab panduan</th><th class="r">JP</th><th class="r">Terjadwal</th></tr></thead><tbody>' +
           (ps.length ? ps.map(function (p) {
             var t = (jp[p.id] || {}).t || 0, beda = +p.jpPekan && t !== +p.jpPekan;
             return '<tr class="click" data-p="' + p.id + '"><td><b>' + esc((d.Mp[p.mapelId] || {}).nama || p.mapelId) + '</b></td><td>' + (p.ustadzId ? esc(namaU(p.ustadzId)) : '<span class="warn">Belum ada</span>') + '</td><td>' + (esc(p.kitab) || '<span class="muted">—</span>') + '</td><td class="r">' + (esc(p.jpPekan) || '—') + '</td><td class="r ' + (beda ? 'warn' : 'muted') + '">' + t + '</td></tr>';
@@ -1018,7 +1084,7 @@ function jadwalUstadz(jv, s) {
   var d = D(), pm = idx(s.pengampuan), per = {};
   s.jadwal.forEach(function (j) { var p = pm[j.pengampuanId]; if (!p || !p.ustadzId) return; (per[p.ustadzId] = per[p.ustadzId] || []).push({ j: j, p: p }); });
   var ids = Object.keys(per).sort(function (a, b) { return namaU(a).localeCompare(namaU(b)); });
-  jv.innerHTML = '<div class="card"><div class="tw"><table class="t"><thead><tr><th>Pengajar</th>' + [1, 2, 3, 4, 5, 6].map(function (h) { return '<th>' + HARI[h] + '</th>'; }).join('') + '</tr></thead><tbody>' +
+  jv.innerHTML = '<div class="card"><div class="tw"><table class="t" data-hp="ringkas" data-u="0" data-kosong="1"><thead><tr><th>Pengajar</th>' + [1, 2, 3, 4, 5, 6].map(function (h) { return '<th>' + HARI[h] + '</th>'; }).join('') + '</tr></thead><tbody>' +
     (ids.length ? ids.map(function (u) {
       return '<tr><td><b>' + esc(namaU(u)) + '</b><span class="sub">' + per[u].reduce(function (n, x) { var a = x.j.mulai.split(':'), c = x.j.selesai.split(':'); return n + Math.round(((+c[0] * 60 + +c[1]) - (+a[0] * 60 + +a[1])) / 45); }, 0) + ' JP · ' + per[u].length + ' pertemuan</span></td>' + [1, 2, 3, 4, 5, 6].map(function (h) {
         return '<td style="vertical-align:top;font-size:12.5px">' + per[u].filter(function (x) { return +x.j.hari === h; }).sort(function (a, b) { return a.j.mulai < b.j.mulai ? -1 : 1; })
@@ -1084,7 +1150,7 @@ HAL.santri = function (v) {
       '<div class="card"><div class="card-h" style="padding-bottom:12px"><div class="bar" style="padding:0;flex:1"><input class="in search" id="q" placeholder="Cari nama, NIS, atau NISN" value="' + esc(f.q) + '">' +
       '<select class="in sm" id="fk">' + opsi(kelasUrut(), f.k, function (k) { return k.nama; }, 'Semua kelas') + '</select>' +
       '<div class="seg" id="fst">' + [['aktif', 'Aktif'], ['keluar', 'Keluar'], ['alumni', 'Alumni'], ['', 'Semua']].map(function (x) { return '<button data-st="' + x[0] + '" class="' + (f.st === x[0] ? 'on' : '') + '">' + x[1] + '</button>'; }).join('') + '</div></div></div>' +
-      '<div class="tw"><table class="t"><thead><tr><th>#</th><th>Nama</th><th>Kelas</th><th>Halaqah</th><th>Asrama</th><th>Tahfizh</th></tr></thead><tbody id="tb"></tbody></table></div></div>';
+      '<div class="tw"><table class="t" data-hp="ringkas" data-u="1,2" data-s="3"><thead><tr><th>#</th><th>Nama</th><th>Kelas</th><th>Halaqah</th><th>Asrama</th><th>Tahfizh</th></tr></thead><tbody id="tb"></tbody></table></div></div>';
     ikatPer();
     var gambar = function () {
       var q = f.q.toLowerCase();
@@ -1141,7 +1207,7 @@ HAL.ustadz = function (v) {
     };
     var rows = S.b.ustadz.slice().sort(function (a, b) { return (b.aktif - a.aktif) || a.nama.localeCompare(b.nama); });
     v.innerHTML = head('Ustadz & Peran', 'Akun pengguna dan peran tetapnya. Wali, pengampu, dan musyrif mengikuti struktur semester aktif.', '<button class="btn btn-p" id="bTambah">' + ic('plus') + 'Ustadz</button>') +
-      '<div class="card"><div class="tw"><table class="t"><thead><tr><th>Nama</th><th>Username</th><th>Peran tetap</th><th>Tugas semester aktif</th></tr></thead><tbody>' +
+      '<div class="card"><div class="tw"><table class="t" data-hp="ringkas" data-u="0" data-s="2"><thead><tr><th>Nama</th><th>Username</th><th>Peran tetap</th><th>Tugas semester aktif</th></tr></thead><tbody>' +
       rows.map(function (u) {
         return '<tr class="click" data-id="' + u.id + '"><td><b>' + esc(u.nama) + '</b>' + (u.namaAr ? '<span class="sub ar" style="text-align:left">' + esc(u.namaAr) + '</span>' : '') + (u.aktif ? '' : '<span class="chip warn">Nonaktif</span>') + '</td><td class="muted">@' + esc(u.username) + '</td>' +
           '<td>' + (pr[u.id] || []).map(function (p) { return '<span class="chip acc">' + esc(S.b.daftarPeran[p] || p) + '</span>'; }).join('') + '</td><td style="font-size:12.5px;color:var(--ink2)">' + esc(tugas(u.id).join(' · ')) + '</td></tr>';
@@ -1274,7 +1340,7 @@ function mulaiUlangNav() { var s = $('.brand span'); if (s) s.textContent = S.b.
 
 HAL.log = function (v) {
   return api('ambilLog', { jumlah: 300 }).then(function (rows) {
-    v.innerHTML = head('Log Aktivitas', '300 aktivitas terakhir.') + '<div class="card"><div class="tw"><table class="t"><thead><tr><th>Waktu</th><th>Pengguna</th><th>Aksi</th><th>Detail</th></tr></thead><tbody>' +
+    v.innerHTML = head('Log Aktivitas', '300 aktivitas terakhir.') + '<div class="card"><div class="tw"><table class="t" data-hp="ringkas" data-u="2" data-s="0"><thead><tr><th>Waktu</th><th>Pengguna</th><th>Aksi</th><th>Detail</th></tr></thead><tbody>' +
       rows.map(function (r) { var t = new Date(r.waktu); return '<tr><td style="white-space:nowrap">' + (isNaN(t) ? esc(r.waktu) : t.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })) + '</td><td>' + esc(r.user) + '</td><td>' + esc(r.aksi) + '</td><td class="muted">' + esc(r.detail) + '</td></tr>'; }).join('') + '</tbody></table></div></div>';
   });
 };
@@ -1616,7 +1682,7 @@ HAL.rencana = function (v) {
     var pm = idx(r.mapel.map(function (x) { return { id: x.pengampuanId, pg: x.progres }; }));
     var semua = S.b.struktur.pengampuan.slice().sort(urut);
     var terisi = r.mapel.filter(function (x) { return x.progres.terisi > 0; }).length;
-    $('#ringkas').innerHTML = '<div class="card"><div class="card-h"><div><h3>Semua mapel</h3><p>' + terisi + ' dari ' + r.mapel.length + ' mapel sudah punya rencana' + (r.tenggat ? ' · tenggat ' + fmtTgl(r.tenggat) : '') + '.</p></div></div><div class="tw"><table class="t"><thead><tr><th>Kelas</th><th>Mapel</th><th>Pengajar</th><th class="r">Rencana</th><th class="r">Tuntas</th><th>Status</th></tr></thead><tbody>' +
+    $('#ringkas').innerHTML = '<div class="card"><div class="card-h"><div><h3>Semua mapel</h3><p>' + terisi + ' dari ' + r.mapel.length + ' mapel sudah punya rencana' + (r.tenggat ? ' · tenggat ' + fmtTgl(r.tenggat) : '') + '.</p></div></div><div class="tw"><table class="t" data-hp="ringkas" data-u="1,5" data-s="0"><thead><tr><th>Kelas</th><th>Mapel</th><th>Pengajar</th><th class="r">Rencana</th><th class="r">Tuntas</th><th>Status</th></tr></thead><tbody>' +
       semua.map(function (p) { var g = (pm[p.id] || {}).pg || {}; return '<tr class="click" data-p="' + p.id + '"><td>' + esc(nmK(p.kelasId)) + '</td><td><b>' + esc(nmM(p.mapelId)) + '</b></td><td>' + (p.ustadzId ? esc(namaU(p.ustadzId)) : '<span class="warn">—</span>') + '</td><td class="r ' + (g.terisi ? '' : 'warn') + '">' + (g.terisi || 0) + '/' + (g.efektif || 0) + '</td><td class="r">' + (g.tuntas || 0) + '</td><td>' + chipProgres(g) + '</td></tr>'; }).join('') + '</tbody></table></div></div>';
     ikat();
   });
@@ -1777,7 +1843,7 @@ HAL.uks = function (v) {
       edit ? '<button class="btn btn-p" id="bCatat">' + ic('plus') + 'Catat santri sakit</button>' : '') +
       '<div class="dates" id="dates">' + [0, 1, 2, 3, 4, 5, 6].map(function (i) { var t = tambahHari(hariKini(), -i); return '<button data-t="' + t + '" class="' + (t === h.tanggal ? 'on' : '') + '">' + (i ? tglPendek(t) : 'Hari ini') + '</button>'; }).join('') + '<input type="date" class="in sm" id="tglLain"></div>' +
       '<div class="card"><div class="card-h"><div><h3>Catatan UKS</h3><p>' + rows.length + ' santri</p></div></div>' +
-      (rows.length ? '<div class="tw"><table class="t"><thead><tr><th>Santri</th><th>Keluhan</th><th>Rekomendasi</th><th>Rentang</th></tr></thead><tbody>' + rows.map(function (u) {
+      (rows.length ? '<div class="tw"><table class="t" data-hp="ringkas" data-u="0,2"><thead><tr><th>Santri</th><th>Keluhan</th><th>Rekomendasi</th><th>Rentang</th></tr></thead><tbody>' + rows.map(function (u) {
         return '<tr class="' + (edit ? 'click' : '') + '" data-u="' + u.id + '"><td><b>' + esc(nmS(u.santriId)) + '</b><span class="sub">' + esc(kelasSantri(u.santriId)) + '</span></td><td>' + (u.terbatas ? '<span class="muted">Terbatas</span>' : esc(u.keluhan) + (u.catatan ? '<span class="sub">' + esc(u.catatan) + '</span>' : '')) + '</td>' +
           '<td>' + chip(esc(REKOM[u.rekomendasi] || u.rekomendasi), u.rekomendasi === 'ikut' ? '' : 'warn') + '</td><td style="white-space:nowrap">' + tglPendek(u.mulai) + (u.selesai && u.selesai !== u.mulai ? ' – ' + tglPendek(u.selesai) : '') + '</td></tr>';
       }).join('') + '</tbody></table></div>' : '<div class="empty">Tidak ada santri dalam catatan UKS pada tanggal ini.</div>') + '</div><div id="sH"></div>';
@@ -1850,13 +1916,13 @@ HAL.rekap = function (v) {
     var urut = r.santri.slice().sort(function (a, b) { return nmS(a.santriId).localeCompare(nmS(b.santriId)); });
     html += '<div class="card"><div class="card-h"><div><h3>' + esc((D().K[r.kelasId] || {}).nama) + '</h3><p>' + fmtTgl(r.dari) + ' – ' + fmtTgl(r.sampai) + ' · ' + n + ' hari KBM terjurnal</p></div><button class="btn btn-s btn-sm" id="bSalinR">' + ic('copy') + 'Salin ke Excel</button></div>';
     if (!n) html += '<div class="empty">Belum ada jurnal KBM pada rentang ini.</div>';
-    else if (S.rkV === 'ringkas') html += '<div class="tw"><table class="t"><thead><tr><th>#</th><th>Santri</th><th class="r">Hadir</th><th class="r">Sakit</th><th class="r">Izin</th><th class="r">Alpa</th>' + (adaM ? '<th class="r">Menunggu</th>' : '') + '</tr></thead><tbody>' +
+    else if (S.rkV === 'ringkas') html += '<div class="tw"><table class="t" data-hp="tabel" data-u="1,2,3,4,5,6"><thead><tr><th>#</th><th>Santri</th><th class="r">Hadir</th><th class="r">Sakit</th><th class="r">Izin</th><th class="r">Alpa</th>' + (adaM ? '<th class="r">Menunggu</th>' : '') + '</tr></thead><tbody>' +
       urut.map(function (x, i) {
         var tdk = Object.keys(x.hari).sort();
         return '<tr class="' + (tdk.length ? 'click' : '') + '" data-s="' + x.santriId + '"><td class="n">' + (i + 1) + '</td><td><b>' + esc(nmS(x.santriId)) + '</b></td><td class="r">' + (n - x.S - x.I - x.A - x.M) + '</td><td class="r' + (x.S ? ' warn' : ' muted') + '">' + x.S + '</td><td class="r' + (x.I ? '' : ' muted') + '">' + x.I + '</td><td class="r' + (x.A ? ' bad' : ' muted') + '">' + x.A + '</td>' + (adaM ? '<td class="r muted">' + x.M + '</td>' : '') + '</tr>' +
           (tdk.length ? '<tr class="det hide" data-d="' + x.santriId + '"><td></td><td colspan="' + (adaM ? 6 : 5) + '">' + tdk.map(function (t) { return tglPendek(t) + ': ' + KODE_LABEL[x.hari[t]].toLowerCase(); }).join(' · ') + '</td></tr>' : '');
       }).join('') + '</tbody></table></div>';
-    else html += '<div class="tw"><table class="mx"><thead><tr><th class="nm">Santri</th>' + r.tanggal.map(function (t) { var a = t.split('-'); return '<th>' + HR3[hariKe(t)].slice(0, 1) + '<br>' + (+a[2]) + '/' + (+a[1]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    else html += '<div class="tw"><table class="mx" data-hp="ringkas" data-u="0" data-kosong="1"><thead><tr><th class="nm">Santri</th>' + r.tanggal.map(function (t) { var a = t.split('-'); return '<th>' + HR3[hariKe(t)].slice(0, 1) + '<br>' + (+a[2]) + '/' + (+a[1]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
       urut.map(function (x) { return '<tr><td class="nm">' + esc(nmS(x.santriId)) + '</td>' + r.tanggal.map(function (t) { var k = x.hari[t]; return '<td class="' + (k ? 'k-' + k : 'muted') + '">' + (k ? (k === 'M' ? '?' : k) : '·') + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
     html += '</div>';
     v.innerHTML = html;
