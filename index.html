@@ -9,7 +9,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script src="config.js?v=2a6289d7"></script>
+<script src="config.js?v=1d097414"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;600&display=swap" rel="stylesheet">
@@ -127,6 +127,23 @@ select.in.sm{padding-right:26px}
   .pr .sg.teks button{padding:0 4px}
 }
 @media(min-width:961px){.bnav{display:none}}
+.lembar{position:fixed;inset:0;z-index:95;background:rgba(20,22,19,.42);display:flex;align-items:flex-end;animation:fd .15s}
+.lembar.tutup{opacity:0;transition:opacity .15s}
+.lb-p{background:#fff;width:100%;max-height:78vh;border-radius:22px 22px 0 0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom);animation:naik .2s ease-out;box-shadow:0 -10px 40px rgba(0,0,0,.18)}
+@keyframes naik{from{transform:translateY(40px);opacity:.4}}
+.lb-p:before{content:"";width:40px;height:4px;border-radius:4px;background:var(--line2);margin:9px auto 0;flex:none}
+.lb-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px 8px 20px}
+.lb-h b{font-size:16px}
+.lb-h .x{color:var(--ink3)}.lb-h .x:hover{background:var(--soft);color:var(--ink)}
+.lb-c{padding:0 16px 8px}
+.lb-l{overflow:auto;padding:0 8px 12px;overscroll-behavior:contain}
+.lb-g{font-size:11.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);padding:12px 12px 4px}
+.lb-o{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:50px;padding:12px;border:0;background:none;border-radius:12px;text-align:left;font-size:15px;color:var(--ink);cursor:pointer}
+.lb-o span{min-width:0;overflow-wrap:anywhere}
+.lb-o:active{background:var(--soft)}
+.lb-o.on{background:var(--soft);font-weight:700}
+.lb-o.on:after{content:"";flex:none;width:6px;height:12px;border-right:2.5px solid var(--hd);border-bottom:2.5px solid var(--hd);transform:rotate(45deg);margin:-4px 6px 0 0}
+.lb-o:disabled{color:var(--ink3);cursor:default}
 @media(max-width:640px){
   .dates input{flex:1 1 140px;min-width:0}
   .t[data-hp=tabel] .kx,.t[data-hp=tabel] tr.det>td:first-child{display:none}
@@ -179,7 +196,7 @@ select.in.sm{padding-right:26px}
 .temas b{display:block;font-size:13.5px}
 .temas small{color:var(--ink3);font-size:12px}
 
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px;overflow:hidden}
 .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;flex-wrap:wrap}
 .card-h h3{margin:0;font-size:15px}
 .card-h p{margin:2px 0 0;color:var(--ink3);font-size:12.5px}
@@ -305,7 +322,8 @@ details.opt[open]>summary:before{content:"–"}
 .rc.hd{border-top:0;font-size:11.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px;padding-top:2px}
 .rc .pk2 b{display:block;font-size:13px}
 .rc .pk2 span{font-size:12px;color:var(--ink3)}
-.rc.kini{background:var(--soft)}
+.rc.kini{background:color-mix(in srgb,var(--tint) 45%,#fff)}
+.rc.kini .pk2 b{color:var(--tinttx)}
 @media(max-width:760px){.rc{grid-template-columns:1fr auto;gap:6px;padding:11px 13px}.rc .pk2{grid-column:1}.rc .rl{grid-column:2;grid-row:1;text-align:right}.rc .in{grid-column:1/3}.rc.hd{display:none}}
 .pr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 16px;border-top:1px solid var(--line)}
 .pr .ex{grid-column:1/3;display:flex;gap:8px;flex-wrap:wrap}
@@ -378,6 +396,14 @@ var IC = {
   check: '<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
   back: '<path d="M15 18l-6-6 6-6"/>',
   copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+  clip: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M8 11h8M8 15h5"/>',
+  ucheck: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 11l2 2 4-4"/>',
+  lcheck: '<path d="M3 5l2 2 3-3M3 12l2 2 3-3M3 19l2 2 3-3M12 6h9M12 13h9M12 20h9"/>',
+  board: '<rect x="3" y="3" width="18" height="12" rx="2"/><path d="M12 15v4M8 21l4-2 4 2M7 8h6M7 11h4"/>',
+  cap: '<path d="M22 9L12 4 2 9l10 5 10-5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/>',
+  idcard: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16a3 3 0 0 1 6 0M14 10h4M14 14h3"/>',
+  bldg: '<path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M16 9h2a2 2 0 0 1 2 2v10M2 21h20M8 7h4M8 11h4M8 15h4"/>',
+  heart: '<path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 0 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1z"/><path d="M7 12h2.5l1.5-2.5 2 4 1.5-1.5H17"/>',
   more: '<circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>'
 };
 function ic(n) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + IC[n] + '</svg>'; }
@@ -555,18 +581,18 @@ function menu() {
   var k = S.b.me.konteks || {}, pm = pemantau();
   if (S.b.periodeAktifId) {
     var dn = [];
-    if ((k.pengampuan || []).length || pm) dn.push({ id: 'jurnal', t: 'Jurnal KBM', i: 'pen' }, { id: 'rencana', t: 'Rencana Pekanan', i: 'book' });
-    if (punya('piket') || pm) dn.push({ id: 'piket', t: 'Presensi Pengajar', i: 'check' });
+    if ((k.pengampuan || []).length || pm) dn.push({ id: 'jurnal', t: 'Jurnal KBM', i: 'pen' }, { id: 'rencana', t: 'Rencana Pekanan', i: 'clip' });
+    if (punya('piket') || pm) dn.push({ id: 'piket', t: 'Presensi Pengajar', i: 'ucheck' });
     if ((k.wali || []).length || pm || punya('kesantrian')) dn.push({ id: 'rekap', t: 'Rekap Presensi', i: 'chart' });
     if (dn.length) m = m.concat([{ sec: 'Diniyah' }], dn);
-    if (punya('uks') || punya('kesantrian') || punya('mudir')) m.push({ sec: 'Kesantrian' }, { id: 'uks', t: 'UKS', i: 'plusq' });
+    if (punya('uks') || punya('kesantrian') || punya('mudir')) m.push({ sec: 'Kesantrian' }, { id: 'uks', t: 'UKS', i: 'heart' });
   }
   if (admin()) {
-    m.push({ sec: 'Semester' }, { id: 'persiapan', t: 'Persiapan Semester', i: 'list' }, { id: 'semester', t: 'Semester & Kalender', i: 'cal' },
+    m.push({ sec: 'Semester' }, { id: 'persiapan', t: 'Persiapan Semester', i: 'lcheck' }, { id: 'semester', t: 'Semester & Kalender', i: 'cal' },
       { id: 'rombel', t: 'Wali & Pembina', i: 'users' }, { id: 'penempatan', t: 'Penempatan Santri', i: 'move' },
-      { id: 'pengampuan', t: 'Pengampuan', i: 'book' }, { id: 'jadwal', t: 'Jadwal KBM', i: 'clock' });
-    m.push({ sec: 'Data Induk' }, { id: 'santri', t: 'Santri', i: 'user' }, { id: 'ustadz', t: 'Ustadz & Peran', i: 'users' },
-      { id: 'kelas', t: 'Kelas & Mapel', i: 'grid' }, { id: 'grup', t: 'Halaqah & Asrama', i: 'home2' });
+      { id: 'pengampuan', t: 'Pengampuan', i: 'board' }, { id: 'jadwal', t: 'Jadwal KBM', i: 'clock' });
+    m.push({ sec: 'Data Induk' }, { id: 'santri', t: 'Santri', i: 'cap' }, { id: 'ustadz', t: 'Ustadz & Peran', i: 'idcard' },
+      { id: 'kelas', t: 'Kelas & Mapel', i: 'grid' }, { id: 'grup', t: 'Halaqah & Asrama', i: 'bldg' });
     m.push({ sec: 'Sistem' }, { id: 'pengaturan', t: 'Pengaturan', i: 'set' }, { id: 'impor', t: 'Impor dari Rapor', i: 'down' }, { id: 'log', t: 'Log Aktivitas', i: 'log' });
   }
   return m;
@@ -652,6 +678,54 @@ function siapkanTabel(root) {
     });
   });
 }
+function hpKecil() { return window.matchMedia('(max-width:640px)').matches; }
+function judulPilihan(sel) {
+  var f = sel.closest('.f'), lb = f && $('label', f);
+  if (lb) return lb.textContent.trim();
+  var td = sel.closest('td[data-l]'); if (td && td.dataset.l) return td.dataset.l;
+  if (sel.getAttribute('aria-label')) return sel.getAttribute('aria-label');
+  if (sel.title) return sel.title;
+  var o0 = sel.options[0]; return o0 && !o0.value ? o0.text.replace(/^[\s—–-]+|[\s—–-]+$/g, '') || 'Pilih' : 'Pilih';
+}
+function lembarPilihan(sel) {
+  if ($('.lembar')) return;
+  var item = [], grup = '';
+  Array.prototype.forEach.call(sel.querySelectorAll('option'), function (o, i) {
+    var g = o.parentNode.tagName === 'OPTGROUP' ? o.parentNode.label : '';
+    if (g !== grup) { grup = g; if (g) item.push('<div class="lb-g">' + esc(g) + '</div>'); }
+    item.push('<button type="button" class="lb-o' + (o.selected ? ' on' : '') + '" data-i="' + i + '"' + (o.disabled ? ' disabled' : '') + '><span>' + esc(o.text) + '</span></button>');
+  });
+  var banyak = sel.options.length > 12;
+  var ov = document.createElement('div');
+  ov.className = 'lembar';
+  ov.innerHTML = '<div class="lb-p" role="dialog" aria-label="' + esc(judulPilihan(sel)) + '"><div class="lb-h"><b>' + esc(judulPilihan(sel)) + '</b><button type="button" class="x" data-x aria-label="Tutup">&times;</button></div>' +
+    (banyak ? '<div class="lb-c"><input class="in" type="search" placeholder="Cari…" aria-label="Cari pilihan"></div>' : '') + '<div class="lb-l">' + item.join('') + '</div></div>';
+  document.body.appendChild(ov);
+  var tutup = function () { ov.classList.add('tutup'); setTimeout(function () { ov.remove(); }, 160); };
+  ov.addEventListener('click', function (e) {
+    if (e.target === ov || e.target.closest('[data-x]')) return tutup();
+    var b = e.target.closest('.lb-o'); if (!b || b.disabled) return;
+    var o = sel.querySelectorAll('option')[+b.dataset.i];
+    if (!o.selected) { o.selected = true; sel.dispatchEvent(new Event('input', { bubbles: true })); sel.dispatchEvent(new Event('change', { bubbles: true })); }
+    tutup();
+  });
+  var c = $('.lb-c input', ov);
+  if (c) c.oninput = function () { var q = c.value.toLowerCase(); $$('.lb-o', ov).forEach(function (b) { b.classList.toggle('hide', b.textContent.toLowerCase().indexOf(q) < 0); }); };
+  var on = $('.lb-o.on', ov); if (on) on.scrollIntoView({ block: 'center' });
+}
+function cegatPilihan(e) {
+  var sel = e.target;
+  if (!sel || sel.tagName !== 'SELECT' || sel.multiple || sel.disabled || !hpKecil()) return;
+  e.preventDefault();
+  lembarPilihan(sel);
+}
+var geserSentuh = false;
+document.addEventListener('touchstart', function () { geserSentuh = false; }, { capture: true, passive: true });
+document.addEventListener('touchmove', function () { geserSentuh = true; }, { capture: true, passive: true });
+document.addEventListener('touchend', function (e) { if (!geserSentuh && e.cancelable) cegatPilihan(e); }, true);
+document.addEventListener('mousedown', cegatPilihan, true);
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { var l = $('.lembar'); if (l) l.remove(); } });
+
 new MutationObserver(function () { siapkanTabel(document); }).observe(document.documentElement, { childList: true, subtree: true });
 
 var HAL = {};
