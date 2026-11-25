@@ -9,7 +9,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script src="config.js?v=3174e4a6"></script>
+<script src="config.js?v=ac9bbcde"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;600&display=swap" rel="stylesheet">
@@ -361,8 +361,9 @@ details.opt[open]>summary:before{content:"–"}
 .rc.hd{border-top:0;font-size:11.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px;padding-top:2px}
 .rc .pk2 b{display:block;font-size:13px}
 .rc .pk2 span{font-size:12px;color:var(--ink3)}
-.rc.kini{background:color-mix(in srgb,var(--tint) 45%,#fff)}
-.rc.kini .pk2 b{color:var(--tinttx)}
+.rc.kini{box-shadow:inset 4px 0 0 var(--emas)}
+.rc.kini .pk2 b{color:var(--acc)}
+.rc .pk2 .kn{display:inline-block;vertical-align:1px;margin-left:6px;padding:2px 8px;border-radius:99px;background:var(--acc);color:#fff;font-size:10.5px;font-weight:700;font-style:normal;letter-spacing:.3px}
 .rc-sep{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;padding:9px 16px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--emas) 12%,#fff);font-size:12.5px;color:var(--ink2)}
 .rc-sep svg{width:16px;height:16px;flex:none;color:var(--emastx)}
 .rc-sep b{font-weight:700;color:var(--emastx)}
@@ -1858,7 +1859,7 @@ function editorRencana(v, rc) {
   function barisRc(w) {
       var r = ada[w.ke] || {}, x = real[w.ke] || {};
       var rl = x.tuntas ? chip('Tuntas', 'acc') : x.sebagian ? chip('Sebagian ' + x.sebagian + '×') : (w.ke < jalan ? '<span class="muted" style="font-size:12px">—</span>' : '');
-      return '<div class="rc' + (w.ke === jalan ? ' kini' : '') + '" data-ke="' + w.ke + '"><div class="pk2"><b>Pekan ' + w.ke + (w.ke === jalan ? ' · kini' : '') + '</b><span>' + tglPendek(w.mulai).replace(/^\S+ /, '') + ' – ' + tglPendek(tambahHari(w.mulai, 5)).replace(/^\S+ /, '') + (w.hariKBM < 6 ? ' · ' + w.hariKBM + ' hari' : '') + '</span></div>' +
+      return '<div class="rc' + (w.ke === jalan ? ' kini' : '') + '" data-ke="' + w.ke + '"><div class="pk2"><b>Pekan ' + w.ke + (w.ke === jalan ? '<i class="kn">Pekan ini</i>' : '') + '</b><span>' + tglPendek(w.mulai).replace(/^\S+ /, '') + ' – ' + tglPendek(tambahHari(w.mulai, 5)).replace(/^\S+ /, '') + (w.hariKBM < 6 ? ' · ' + w.hariKBM + ' hari' : '') + '</span></div>' +
         '<input class="in sm" data-k="pokok" value="' + esc(r.pokok || '') + '" placeholder="Pokok bahasan"' + (rc.bolehUbah ? '' : ' disabled') + '>' +
         '<input class="in sm" data-k="rujukan" value="' + esc(r.rujukan || '') + '" placeholder="Bab / halaman"' + (rc.bolehUbah ? '' : ' disabled') + '>' +
         '<div class="rl">' + rl + '</div></div>';
