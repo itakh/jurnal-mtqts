@@ -9,7 +9,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script src="config.js?v=0f53e316"></script>
+<script src="config.js?v=3174e4a6"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;600&display=swap" rel="stylesheet">
@@ -363,6 +363,10 @@ details.opt[open]>summary:before{content:"–"}
 .rc .pk2 span{font-size:12px;color:var(--ink3)}
 .rc.kini{background:color-mix(in srgb,var(--tint) 45%,#fff)}
 .rc.kini .pk2 b{color:var(--tinttx)}
+.rc-sep{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;padding:9px 16px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--emas) 12%,#fff);font-size:12.5px;color:var(--ink2)}
+.rc-sep svg{width:16px;height:16px;flex:none;color:var(--emastx)}
+.rc-sep b{font-weight:700;color:var(--emastx)}
+.rc-sep span{color:var(--ink3)}
 @media(max-width:760px){.rc{grid-template-columns:1fr auto;gap:6px;padding:11px 13px}.rc .pk2{grid-column:1}.rc .rl{grid-column:2;grid-row:1;text-align:right}.rc .in{grid-column:1/3}.rc.hd{display:none}}
 .pr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 16px;border-top:1px solid var(--line)}
 .pr .ex{grid-column:1/3;display:flex;gap:8px;flex-wrap:wrap}
@@ -1822,6 +1826,20 @@ function cetakAktif(pilih) {
     .map(function (p) { return { key: p.id, kelasId: p.kelasId, mapelId: p.mapelId, ustadzId: p.ustadzId }; });
   pilihCetak({ judul: namaProsem(false), daftar: daftar, pilih: pilih.length ? pilih : daftar.map(function (m) { return m.key; }) });
 }
+function selaPekan(minggu) {
+  var out = {}, lewat = [];
+  (minggu || []).forEach(function (w) {
+    if (!w.efektif) { lewat.push(w); return; }
+    if (lewat.length) { out[w.ke] = barisSela(lewat); lewat = []; }
+  });
+  out.akhir = lewat.length ? barisSela(lewat) : '';
+  return out;
+}
+function barisSela(lewat) {
+  var ket = []; lewat.forEach(function (w) { if (w.ket && ket.indexOf(w.ket) < 0) ket.push(w.ket); });
+  var a = lewat[0].mulai, b = tambahHari(lewat[lewat.length - 1].mulai, 5);
+  return '<div class="rc-sep">' + ic('cal') + '<b>' + esc(ket.join(' · ') || 'Bukan pekan efektif') + '</b><span>' + (a ? tglPendek(a).replace(/^\S+ /, '') + ' – ' + tglPendek(b).replace(/^\S+ /, '') : '') + ' · tidak perlu diisi</span></div>';
+}
 function editorRencana(v, rc) {
   var p = rc.pengampuan, ada = {}, real = rc.realisasi, kini = hariKini(), ubah = 0;
   rc.rows.forEach(function (r) { ada[r.pekanKe] = r; });
@@ -1834,16 +1852,17 @@ function editorRencana(v, rc) {
     kartuKitab(p, rc.bolehUbah) +
     (rc.bolehUbah && rc.disiapkan && !rc.progres.terisi ? '<div class="card"><div class="card-h"><div><h3>Rencana sudah disiapkan</h3><p>' + rc.disiapkan + ' pekan sudah disiapkan sebelum semester ini dimulai.</p></div><button class="btn btn-p btn-sm" id="bAmbil">' + ic('down') + 'Ambil rencana</button></div></div>' : '') +
     '<div class="card" id="rcL"><div class="rc hd"><span>Pekan</span><span>Pokok bahasan</span><span>Rujukan (opsional)</span><span>Realisasi</span></div>' +
-    rc.pekan.map(function (w) {
+    (function () { var sl = selaPekan(S.b.struktur.pekan); return rc.pekan.map(function (w) { return (sl[w.ke] || '') + barisRc(w); }).join('') + sl.akhir; })() + '</div>' +
+    (rc.jurnalBebas ? '<p class="muted" style="font-size:12.5px">' + rc.jurnalBebas + ' jurnal memakai materi di luar rencana dan tidak dihitung dalam realisasi.</p>' : '') +
+    '<div class="sticky hide" id="stk"><span id="nUbah"></span><div><button class="btn btn-g btn-sm" id="bBatal" style="color:#fff">Batalkan</button> <button class="btn btn-s btn-sm" id="bSimpan">Simpan rencana</button></div></div>';
+  function barisRc(w) {
       var r = ada[w.ke] || {}, x = real[w.ke] || {};
       var rl = x.tuntas ? chip('Tuntas', 'acc') : x.sebagian ? chip('Sebagian ' + x.sebagian + '×') : (w.ke < jalan ? '<span class="muted" style="font-size:12px">—</span>' : '');
       return '<div class="rc' + (w.ke === jalan ? ' kini' : '') + '" data-ke="' + w.ke + '"><div class="pk2"><b>Pekan ' + w.ke + (w.ke === jalan ? ' · kini' : '') + '</b><span>' + tglPendek(w.mulai).replace(/^\S+ /, '') + ' – ' + tglPendek(tambahHari(w.mulai, 5)).replace(/^\S+ /, '') + (w.hariKBM < 6 ? ' · ' + w.hariKBM + ' hari' : '') + '</span></div>' +
         '<input class="in sm" data-k="pokok" value="' + esc(r.pokok || '') + '" placeholder="Pokok bahasan"' + (rc.bolehUbah ? '' : ' disabled') + '>' +
         '<input class="in sm" data-k="rujukan" value="' + esc(r.rujukan || '') + '" placeholder="Bab / halaman"' + (rc.bolehUbah ? '' : ' disabled') + '>' +
         '<div class="rl">' + rl + '</div></div>';
-    }).join('') + '</div>' +
-    (rc.jurnalBebas ? '<p class="muted" style="font-size:12.5px">' + rc.jurnalBebas + ' jurnal memakai materi di luar rencana dan tidak dihitung dalam realisasi.</p>' : '') +
-    '<div class="sticky hide" id="stk"><span id="nUbah"></span><div><button class="btn btn-g btn-sm" id="bBatal" style="color:#fff">Batalkan</button> <button class="btn btn-s btn-sm" id="bSimpan">Simpan rencana</button></div></div>';
+  }
   var tandai = function () {
     ubah = $$('#rcL .rc[data-ke]').filter(function (r) { var a = ada[r.dataset.ke] || {}; return $('[data-k=pokok]', r).value.trim() !== (a.pokok || '') || $('[data-k=rujukan]', r).value.trim() !== (a.rujukan || ''); }).length;
     $('#stk').classList.toggle('hide', !ubah); $('#nUbah').textContent = ubah + ' pekan diubah';
@@ -2029,14 +2048,15 @@ function editorDepan(v, rd) {
     (rd.bolehUbah ? '' : '<p class="note">Rencana ini diisi oleh pengampunya. Anda melihat saja.</p>') +
     kartuKitab(rd, rd.bolehUbah) +
     '<div class="card" id="rcL"><div class="rc hd"><span>Pekan</span><span>Pokok bahasan</span><span>Rujukan (opsional)</span><span></span></div>' +
-    sem.pekan.map(function (w) {
+    (function () { var sl = selaPekan(sem.minggu); return sem.pekan.map(function (w) { return (sl[w.ke] || '') + barisRd(w); }).join('') + sl.akhir; })() + '</div>' +
+    '<div class="sticky hide" id="stk"><span id="nUbah"></span><div><button class="btn btn-g btn-sm" id="bBatal" style="color:#fff">Batalkan</button> <button class="btn btn-s btn-sm" id="bSimpan">Simpan rencana</button></div></div>';
+  function barisRd(w) {
       var r = ada[w.ke] || {};
       return '<div class="rc" data-ke="' + w.ke + '"><div class="pk2"><b>Pekan ' + w.ke + '</b><span>' + (w.mulai ? tglPendek(w.mulai).replace(/^\S+ /, '') + ' – ' + tglPendek(tambahHari(w.mulai, 5)).replace(/^\S+ /, '') : '') + (w.ket ? ' · ' + esc(w.ket) : '') + '</span></div>' +
         '<input class="in sm" data-k="pokok" value="' + esc(r.pokok || '') + '" placeholder="Pokok bahasan"' + (rd.bolehUbah ? '' : ' disabled') + '>' +
         '<input class="in sm" data-k="rujukan" value="' + esc(r.rujukan || '') + '" placeholder="Bab / halaman"' + (rd.bolehUbah ? '' : ' disabled') + '>' +
         '<div class="rl"></div></div>';
-    }).join('') + '</div>' +
-    '<div class="sticky hide" id="stk"><span id="nUbah"></span><div><button class="btn btn-g btn-sm" id="bBatal" style="color:#fff">Batalkan</button> <button class="btn btn-s btn-sm" id="bSimpan">Simpan rencana</button></div></div>';
+  }
   var tandai = function () {
     ubah = $$('#rcL .rc[data-ke]').filter(function (r) { var a = ada[r.dataset.ke] || {}; return $('[data-k=pokok]', r).value.trim() !== (a.pokok || '') || $('[data-k=rujukan]', r).value.trim() !== (a.rujukan || ''); }).length;
     $('#stk').classList.toggle('hide', !ubah); $('#nUbah').textContent = ubah + ' pekan diubah';
