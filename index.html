@@ -9,7 +9,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script src="config.js?v=ba79f28c"></script>
+<script src="config.js?v=0f53e316"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;600&display=swap" rel="stylesheet">
@@ -127,6 +127,45 @@ select.in.sm{padding-right:26px}
   .pr .sg.teks button{padding:0 4px}
 }
 @media(min-width:961px){.bnav{display:none}}
+#cetak{display:none}
+.ck-l{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:4px 10px;margin-top:8px}
+.ck-l label{display:flex;gap:10px;align-items:center;padding:9px 2px;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}
+.ck-l label:last-child{border-bottom:0}
+.ck-l small{display:block;color:var(--ink3);font-size:12px}
+@media print{
+  @page{size:A4;margin:12mm 14mm}
+  html,body{background:#fff!important}
+  body>*:not(#cetak){display:none!important}
+  #cetak{display:block;color:#1b1d19;font-family:"Plus Jakarta Sans",system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cp{min-height:271mm;display:flex;flex-direction:column;break-after:page;page-break-after:always}
+  .cp:last-child{break-after:auto;page-break-after:auto}
+  .cp-kop{display:flex;align-items:center;gap:12px;padding-bottom:9px;border-bottom:1.5px solid #1b1d19}
+  .cp-kop img{width:46px;height:46px}
+  .cp-kop b{display:block;font-size:11pt;letter-spacing:.4px;white-space:nowrap}
+  .cp-kop span{font-size:8.5pt;color:#55584f}
+  .cp-kop .ar{margin-left:auto;font-family:"Scheherazade New",serif;font-size:15pt;white-space:nowrap}
+  .cp-jd{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px}
+  .cp-jd small{display:block;font-size:8pt;font-weight:700;letter-spacing:2px;color:#55584f}
+  .cp-jd h2{margin:2px 0 0;font-size:17pt;letter-spacing:-.3px}
+  .cp-jd div:last-child{font-size:13pt;font-weight:800;text-align:right}
+  .cp-jd em{font-style:normal;font-weight:500;color:#55584f}
+  .cp-id{display:grid;grid-template-columns:1fr 1fr;gap:5px 24px;margin-top:12px;font-size:9.5pt}
+  .cp-id span{display:inline-block;width:90px;color:#55584f}
+  .cp table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:12px;font-size:9pt}
+  .cp thead{display:table-header-group}
+  .cp tr{break-inside:avoid}
+  .cp th{text-align:left;font-size:7.5pt;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#3e403b;padding:0 6px 5px;border-bottom:1.5px solid #1b1d19}
+  .cp td{padding:3.5px 6px;border-bottom:1px solid #dedcd5;vertical-align:top;line-height:1.35}
+  .cp td.n{font-weight:800;text-align:center}
+  .cp td.t,.cp td.b,.cp td.r{color:#3e403b}
+  .cp td.t{white-space:nowrap}
+  .cp tr.sep td{background:#f2f1ed;color:#55584f;font-size:8pt;font-weight:600;padding:3px 6px}
+  .cp-ttd{display:flex;justify-content:space-between;margin-top:auto;padding-top:18px;font-size:9.5pt;break-inside:avoid}
+  .cp-ttd>div{width:62mm;display:flex;flex-direction:column}
+  .cp-ttd i{height:52px}
+  .cp-ttd b{border-top:1px solid #1b1d19;padding-top:4px}
+  .cp-ft{display:flex;justify-content:space-between;font-size:7.5pt;color:#6a6d65;margin-top:10px}
+}
 .lembar{position:fixed;inset:0;z-index:95;background:rgba(20,22,19,.42);display:flex;align-items:flex-end;animation:fd .15s}
 .lembar.tutup{opacity:0;transition:opacity .15s}
 .lb-p{background:#fff;width:100%;max-height:78vh;border-radius:22px 22px 0 0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom);animation:naik .2s ease-out;box-shadow:0 -10px 40px rgba(0,0,0,.18)}
@@ -405,6 +444,7 @@ var IC = {
   bldg: '<path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M16 9h2a2 2 0 0 1 2 2v10M2 21h20M8 7h4M8 11h4M8 15h4"/>',
   heart: '<path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 0 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1z"/><path d="M7 12h2.5l1.5-2.5 2 4 1.5-1.5H17"/>',
   cnext: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M8 15h7M12.5 12l3 3-3 3"/>',
+  print: '<path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/>',
   more: '<circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>'
 };
 function ic(n) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + IC[n] + '</svg>'; }
@@ -1760,12 +1800,13 @@ HAL.rencana = function (v) {
   if (!S.rcP && mine.length === 1 && !pemantau()) S.rcP = mine[0].id;
   if (S.rcP) return api('rencana', { pengampuanId: S.rcP }).then(function (rc) { editorRencana(v, rc); });
   var urut = function (a, b) { return (+(D().K[a.kelasId] || {}).tingkat - +(D().K[b.kelasId] || {}).tingkat) || ((+(D().Mp[a.mapelId] || {}).urutan || 99) - (+(D().Mp[b.mapelId] || {}).urutan || 99)); };
-  var html = head(namaProsem(false) + ' ' + esc(D().P[S.b.periodeAktifId].tahunAjaran), 'Program semester: satu pokok bahasan untuk tiap pekan efektif. Realisasi diambil dari jurnal KBM.');
+  var html = head(namaProsem(false) + ' ' + esc(D().P[S.b.periodeAktifId].tahunAjaran), 'Program semester: satu pokok bahasan untuk tiap pekan efektif. Realisasi diambil dari jurnal KBM.', '<button class="btn btn-s btn-sm" id="bCetak">' + ic('print') + 'Cetak</button>');
   if (mine.length) html += '<div class="sec-t" style="font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin:0 0 8px">Mapel saya</div><div class="card">' +
     mine.sort(urut).map(function (p) { return '<div class="blk" data-p="' + p.id + '"><time>' + esc(nmK(p.kelasId)) + '</time><div><b>' + esc(nmM(p.mapelId)) + '</b><span class="s">' + esc(teksKitab(p) || 'Kitab belum diisi') + '</span></div><div class="st">' + ic('back').replace('<svg', '<svg style="width:16px;transform:rotate(180deg);color:var(--ink3)"') + '</div></div>'; }).join('') + '</div>';
   v.innerHTML = html + (pemantau() ? '<div id="ringkas"><div class="card"><div class="empty"><div class="spin"></div>Memuat ringkasan…</div></div></div>' : '');
   var ikat = function () { $$('[data-p]', v).forEach(function (r) { r.onclick = function () { S.rcP = r.dataset.p; render(); }; }); };
   ikat();
+  $('#bCetak').onclick = function () { cetakAktif(mine.map(function (p) { return p.id; })); };
   if (pemantau()) return api('rencanaRingkas', {}).then(function (r) {
     var pm = idx(r.mapel.map(function (x) { return { id: x.pengampuanId, pg: x.progres }; }));
     var semua = S.b.struktur.pengampuan.slice().sort(urut);
@@ -1775,6 +1816,12 @@ HAL.rencana = function (v) {
     ikat();
   });
 };
+function cetakAktif(pilih) {
+  var urut = function (a, b) { return (+(D().K[a.kelasId] || {}).tingkat - +(D().K[b.kelasId] || {}).tingkat) || ((+(D().Mp[a.mapelId] || {}).urutan || 99) - (+(D().Mp[b.mapelId] || {}).urutan || 99)); };
+  var daftar = S.b.struktur.pengampuan.filter(function (p) { return pemantau() || p.ustadzId === S.b.me.id; }).slice().sort(urut)
+    .map(function (p) { return { key: p.id, kelasId: p.kelasId, mapelId: p.mapelId, ustadzId: p.ustadzId }; });
+  pilihCetak({ judul: namaProsem(false), daftar: daftar, pilih: pilih.length ? pilih : daftar.map(function (m) { return m.key; }) });
+}
 function editorRencana(v, rc) {
   var p = rc.pengampuan, ada = {}, real = rc.realisasi, kini = hariKini(), ubah = 0;
   rc.rows.forEach(function (r) { ada[r.pekanKe] = r; });
@@ -1782,7 +1829,7 @@ function editorRencana(v, rc) {
   var bisaKembali = pemantau() || S.b.struktur.pengampuan.filter(function (x) { return x.ustadzId === S.b.me.id; }).length > 1;
   v.innerHTML = head((bisaKembali ? '<a class="btn btn-g btn-sm" id="bKembali" style="margin:-4px 6px 0 -10px;vertical-align:middle">' + ic('back') + '</a>' : '') + esc(nmM(p.mapelId)) + ' · ' + esc(nmK(p.kelasId)),
     esc(namaU(p.ustadzId)) + ' · ' + rc.progres.terisi + ' dari ' + rc.pekan.length + ' pekan terisi' + (rc.tenggat ? ' · tenggat ' + fmtTgl(rc.tenggat) : ''),
-    chipProgres(rc.progres) + (rc.bolehUbah ? '<button class="btn btn-s btn-sm" id="bTempel">Tempel daftar</button><button class="btn btn-s btn-sm" id="bSalin">' + ic('copy') + 'Salin dari semester lain</button>' : '')) +
+    chipProgres(rc.progres) + '<button class="btn btn-s btn-sm" id="bCetak">' + ic('print') + 'Cetak</button>' + (rc.bolehUbah ? '<button class="btn btn-s btn-sm" id="bTempel">Tempel daftar</button><button class="btn btn-s btn-sm" id="bSalin">' + ic('copy') + 'Salin dari semester lain</button>' : '')) +
     (rc.bolehUbah ? '' : '<p class="note">Rencana ini diisi oleh pengampunya. Anda melihat saja.</p>') +
     kartuKitab(p, rc.bolehUbah) +
     (rc.bolehUbah && rc.disiapkan && !rc.progres.terisi ? '<div class="card"><div class="card-h"><div><h3>Rencana sudah disiapkan</h3><p>' + rc.disiapkan + ' pekan sudah disiapkan sebelum semester ini dimulai.</p></div><button class="btn btn-p btn-sm" id="bAmbil">' + ic('down') + 'Ambil rencana</button></div></div>' : '') +
@@ -1829,6 +1876,7 @@ function editorRencana(v, rc) {
       } });
   };
   ikatKitab(p, { pengampuanId: p.id }, function () { return muatUlang().then(render); });
+  $('#bCetak').onclick = function () { cetakAktif([p.id]); };
   var ba = $('#bAmbil');
   if (ba) ba.onclick = function () {
     sibuk(ba, api('rencanaSumber', { pengampuanId: p.id, dariPeriode: 'depan' })).then(function (rows) {
@@ -1878,6 +1926,65 @@ function ikatKitab(x, dasar, selesai) {
       } });
   };
 }
+var BLN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+function tglPanjang(iso) { var a = iso.split('-'); return (+a[2]) + ' ' + BLN[+a[1] - 1] + ' ' + a[0]; }
+function rentangTgl(a, b) {
+  var x = a.split('-'), y = b.split('-');
+  return x[1] === y[1] ? (+x[2]) + '–' + (+y[2]) + ' ' + BL[+x[1] - 1] : (+x[2]) + ' ' + BL[+x[1] - 1] + '–' + (+y[2]) + ' ' + BL[+y[1] - 1];
+}
+function kabidDiniyah() { var r = (S.b.peran || []).filter(function (x) { return x.peran === 'kabidDiniyah'; })[0]; return r ? namaU(r.ustadzId) : ''; }
+function pilihCetak(o) {
+  var pm = pemantau(), daftar = o.daftar;
+  modal({ judul: 'Cetak ' + o.judul, sub: 'Pilih mapel yang akan dicetak. Setiap mapel menjadi satu halaman A4; simpan sebagai PDF dari jendela cetak.', ok: 'Cetak',
+    isi: (o.depan ? '' : '<label class="chk" style="margin-bottom:6px"><input type="checkbox" id="ckReal"' + (o.realisasi === false ? '' : ' checked') + '> Tampilkan kolom realisasi (dari Jurnal KBM)</label>') +
+      (daftar.length > 1 ? '<div class="seg" id="ckCepat"><button type="button" data-c="saya">Mapel saya</button>' + (pm ? '<button type="button" data-c="semua">Semua mapel</button>' : '') + '<button type="button" data-c="kosong">Kosongkan</button></div>' : '') +
+      '<div class="ck-l">' + daftar.map(function (m) { return '<label><input type="checkbox" value="' + esc(m.key) + '"' + (o.pilih.indexOf(m.key) >= 0 ? ' checked' : '') + '><span><b>' + esc(nmM(m.mapelId)) + ' · ' + esc(nmK(m.kelasId)) + '</b><small>' + (m.ustadzId ? esc(namaU(m.ustadzId)) : 'Pengajar belum ditentukan') + '</small></span></label>'; }).join('') + '</div>',
+    siap: function (ov) {
+      $$('#ckCepat button', ov).forEach(function (b) { b.onclick = function () { $$('.ck-l input', ov).forEach(function (c, i) { c.checked = b.dataset.c === 'semua' || (b.dataset.c === 'saya' && daftar[i].ustadzId === S.b.me.id); }); }; });
+    },
+    onOk: function (ov) {
+      var keys = $$('.ck-l input', ov).filter(function (c) { return c.checked; }).map(function (c) { return c.value; });
+      if (!keys.length) throw new Error('Pilih minimal satu mapel.');
+      var real = !o.depan && $('#ckReal', ov).checked;
+      var req = o.depan ? { depan: true, kaldik: kaldikDepan(), mapel: keys.map(function (k) { var a = k.split('|'); return { kelasId: a[0], mapelId: a[1] }; }) } : { pengampuanIds: keys };
+      return api('prosemCetak', req).then(function (r) { cetakProsem(r, real); });
+    } });
+}
+function cetakProsem(r, real) {
+  var pg = S.b.pengaturan || {}, kabid = kabidDiniyah(), hari = tglPanjang(S.b.hariIni || hariIni());
+  var urut = function (a, b) { return (+(D().K[a.kelasId] || {}).tingkat - +(D().K[b.kelasId] || {}).tingkat) || ((+(D().Mp[a.mapelId] || {}).urutan || 99) - (+(D().Mp[b.mapelId] || {}).urutan || 99)); };
+  var minggu = r.minggu || [], nEf = minggu.filter(function (w) { return w.efektif; }).length;
+  var hal = r.mapel.slice().sort(urut).map(function (m) {
+    var isi = {}; m.rows.forEach(function (x) { isi[x.pekanKe] = x; });
+    var baris = [], lewat = [];
+    var tutupLewat = function () {
+      if (!lewat.length) return;
+      var ket = []; lewat.forEach(function (w) { if (w.ket && ket.indexOf(w.ket) < 0) ket.push(w.ket); });
+      baris.push('<tr class="sep"><td></td><td>' + rentangTgl(lewat[0].mulai, tambahHari(lewat[lewat.length - 1].mulai, 5)) + '</td><td colspan="' + (real ? 3 : 2) + '">' + esc(ket.join(' · ') || 'Bukan pekan efektif') + '</td></tr>');
+      lewat = [];
+    };
+    minggu.forEach(function (w) {
+      if (!w.efektif) { lewat.push(w); return; }
+      tutupLewat();
+      var x = isi[w.ke] || {}, rl = (m.real || {})[w.ke], teksR = '';
+      if (rl) teksR = (rl.tuntas ? 'Tuntas' : 'Sebagian') + (rl.terakhir ? ' · ' + (+rl.terakhir.split('-')[2]) + ' ' + BL[+rl.terakhir.split('-')[1] - 1] : '');
+      baris.push('<tr><td class="n">' + w.ke + '</td><td class="t">' + (w.mulai ? rentangTgl(w.mulai, tambahHari(w.mulai, 5)) : '') + (w.hariKBM && w.hariKBM < 6 ? '<br><small>' + w.hariKBM + ' hari KBM</small>' : '') + '</td><td>' + esc(x.pokok || '') + '</td><td class="b">' + esc(x.rujukan || '') + '</td>' + (real ? '<td class="r">' + esc(teksR) + '</td>' : '') + '</tr>');
+    });
+    tutupLewat();
+    return '<section class="cp"><div class="cp-kop"><img src="' + LOGO + '" alt=""><div><b>' + esc(String(pg.namaLembaga || '').toUpperCase()) + '</b><span>Bidang Diniyah · ' + esc(pg.kota || '') + '</span></div><span class="ar">' + esc(pg.namaLembagaAr || '') + '</span></div>' +
+      '<div class="cp-jd"><div><small>PROGRAM SEMESTER</small><h2>Prosem ' + esc(r.semester + ' ' + r.tahunAjaran) + '</h2></div><div>' + esc(nmM(m.mapelId)) + ' <em>· ' + esc(nmK(m.kelasId)) + '</em></div></div>' +
+      '<div class="cp-id"><div><span>Pengajar</span><b>' + esc(m.ustadzId ? namaU(m.ustadzId) : '—') + '</b></div><div><span>Kitab panduan</span><b>' + esc(m.kitab || '—') + '</b></div>' +
+      '<div><span>JP per pekan</span><b>' + esc(m.jpPekan ? m.jpPekan + ' JP' : '—') + '</b> · ' + nEf + ' pekan efektif</div><div><span>Penulis</span><b>' + esc(m.penulis || '—') + '</b></div></div>' +
+      '<table><colgroup><col style="width:12mm"><col style="width:27mm"><col><col style="width:' + (real ? 40 : 52) + 'mm">' + (real ? '<col style="width:22mm">' : '') + '</colgroup><thead><tr><th style="text-align:center">Pekan</th><th>Tanggal</th><th>Pokok bahasan</th><th>Bab / halaman</th>' + (real ? '<th>Realisasi</th>' : '') + '</tr></thead><tbody>' + baris.join('') + '</tbody></table>' +
+      '<div class="cp-ttd"><div><span>Mengetahui,</span><span>Kepala Bidang Diniyah</span><i></i><b>' + (kabid ? esc(kabid) : '&nbsp;') + '</b></div><div><span>' + esc(pg.kota || '') + ', ' + hari + '</span><span>Pengajar</span><i></i><b>' + (m.ustadzId ? esc(namaU(m.ustadzId)) : '&nbsp;') + '</b></div></div>' +
+      '<div class="cp-ft"><span>Dicetak dari Jurnal MTQTS' + (real ? ' · Realisasi dari Jurnal KBM; kosong bila belum tercatat' : '') + '</span><span>' + esc(nmM(m.mapelId) + ' · ' + nmK(m.kelasId)) + '</span></div></section>';
+  });
+  if (!hal.length) throw new Error('Tidak ada mapel yang bisa dicetak.');
+  var c = $('#cetak'); if (!c) { c = document.createElement('div'); c.id = 'cetak'; document.body.appendChild(c); }
+  c.innerHTML = hal.join('');
+  var imgs = $$('img', c).filter(function (i) { return !i.complete; });
+  Promise.all(imgs.map(function (i) { return new Promise(function (ok) { i.onload = i.onerror = ok; }); })).then(function () { setTimeout(function () { window.print(); }, 50); });
+}
 function kaldikDepan() {
   var nx = semesterBerikut(D().P[S.b.periodeAktifId]);
   return KALDIK[nx.ta + ' ' + nx.smt] || null;
@@ -1890,7 +1997,8 @@ HAL.rencanaDepan = function (v) {
     var urut = function (a, b) { return (+(D().K[a.kelasId] || {}).tingkat - +(D().K[b.kelasId] || {}).tingkat) || ((+(D().Mp[a.mapelId] || {}).urutan || 99) - (+(D().Mp[b.mapelId] || {}).urutan || 99)); };
     var nP = sem.pekan.length;
     var stat = function (m) { return m.terisi >= nP ? chip('Lengkap', 'acc') : m.terisi ? chip(m.terisi + ' dari ' + nP + ' pekan') : chip('Belum diisi', 'warn'); };
-    var html = head('Prosem ' + esc(sem.semester + ' ' + sem.tahunAjaran), 'Siapkan program semester ' + esc(sem.nama) + (sem.mulai ? ' (KBM mulai ' + fmtTgl(sem.mulai) + ')' : '') + '. Saat semester itu aktif, rencana ini tinggal diambil di menu Prosem ' + esc(sem.semester) + '.');
+    S.rdDaftar = r.mapel;
+    var html = head('Prosem ' + esc(sem.semester + ' ' + sem.tahunAjaran), 'Siapkan program semester ' + esc(sem.nama) + (sem.mulai ? ' (KBM mulai ' + fmtTgl(sem.mulai) + ')' : '') + '. Saat semester itu aktif, rencana ini tinggal diambil di menu Prosem ' + esc(sem.semester) + '.', '<button class="btn btn-s btn-sm" id="bCetak">' + ic('print') + 'Cetak</button>');
     if (!sem.siap) html += '<p class="note">Tanggal pekan memakai kalender pendidikan bawaan. Nomor pekan tetap sama walaupun kalender diubah nanti.</p>';
     if (mine.length) html += '<div class="sec-t" style="font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin:0 0 8px">Mapel saya</div><div class="card">' +
       mine.sort(urut).map(function (m) { return '<div class="blk" data-k="' + m.kelasId + '" data-m="' + m.mapelId + '"><time>' + esc(nmK(m.kelasId)) + '</time><div><b>' + esc(nmM(m.mapelId)) + '</b><span class="s">' + esc(teksKitab(m) || 'Kitab belum diisi') + '</span></div><div class="st">' + stat(m) + '</div></div>'; }).join('') + '</div>';
@@ -1903,14 +2011,21 @@ HAL.rencanaDepan = function (v) {
     }
     v.innerHTML = html;
     $$('[data-k][data-m]', v).forEach(function (el) { el.onclick = function () { S.rdK = { k: el.dataset.k, m: el.dataset.m }; render(); }; });
+    $('#bCetak').onclick = function () { cetakDepan(mine.map(function (m) { return m.kelasId + '|' + m.mapelId; }), sem); };
   });
 };
+function cetakDepan(pilih, sem) {
+  var urut = function (a, b) { return (+(D().K[a.kelasId] || {}).tingkat - +(D().K[b.kelasId] || {}).tingkat) || ((+(D().Mp[a.mapelId] || {}).urutan || 99) - (+(D().Mp[b.mapelId] || {}).urutan || 99)); };
+  var daftar = (S.rdDaftar || []).slice().sort(urut).map(function (m) { return { key: m.kelasId + '|' + m.mapelId, kelasId: m.kelasId, mapelId: m.mapelId, ustadzId: m.ustadzId }; });
+  pilih.forEach(function (k) { if (!daftar.some(function (m) { return m.key === k; })) { var a = k.split('|'); daftar.push({ key: k, kelasId: a[0], mapelId: a[1], ustadzId: '' }); } });
+  pilihCetak({ judul: 'Prosem ' + sem.semester, depan: true, daftar: daftar, pilih: pilih.length ? pilih : daftar.map(function (m) { return m.key; }) });
+}
 function editorDepan(v, rd) {
   var sem = rd.semester, ada = {}, ubah = 0;
   rd.rows.forEach(function (r) { ada[r.pekanKe] = r; });
   v.innerHTML = head('<a class="btn btn-g btn-sm" id="bKembali" style="margin:-4px 6px 0 -10px;vertical-align:middle" aria-label="Kembali">' + ic('back') + '</a>' + esc(nmM(rd.mapelId)) + ' · ' + esc(nmK(rd.kelasId)),
     esc(sem.nama) + ' · ' + (rd.ustadzId ? esc(namaU(rd.ustadzId)) : 'pengajar belum ditentukan') + ' · ' + rd.rows.length + ' dari ' + sem.pekan.length + ' pekan terisi',
-    rd.bolehUbah ? '<button class="btn btn-s btn-sm" id="bTempel">Tempel daftar</button>' : '') +
+    '<button class="btn btn-s btn-sm" id="bCetak">' + ic('print') + 'Cetak</button>' + (rd.bolehUbah ? '<button class="btn btn-s btn-sm" id="bTempel">Tempel daftar</button>' : '')) +
     (rd.bolehUbah ? '' : '<p class="note">Rencana ini diisi oleh pengampunya. Anda melihat saja.</p>') +
     kartuKitab(rd, rd.bolehUbah) +
     '<div class="card" id="rcL"><div class="rc hd"><span>Pekan</span><span>Pokok bahasan</span><span>Rujukan (opsional)</span><span></span></div>' +
@@ -1929,6 +2044,7 @@ function editorDepan(v, rd) {
   $$('#rcL input').forEach(function (i) { i.oninput = tandai; });
   $('#bKembali').onclick = function () { S.rdK = null; render(); };
   ikatKitab(rd, { depan: true, kelasId: rd.kelasId, mapelId: rd.mapelId, kaldik: kaldikDepan() }, function () { return render(); });
+  $('#bCetak').onclick = function () { cetakDepan([rd.kelasId + '|' + rd.mapelId], sem); };
   $('#bBatal').onclick = function () { editorDepan(v, rd); };
   $('#bSimpan').onclick = function () {
     var rows = $$('#rcL .rc[data-ke]').map(function (r) { return { pekanKe: r.dataset.ke, pokok: $('[data-k=pokok]', r).value, rujukan: $('[data-k=rujukan]', r).value }; })

@@ -1,5 +1,5 @@
 // Menyimpan tampilan di HP agar cepat terbuka. Data selalu diambil langsung dari server.
-const C='jurnal-ba79f28c';
+const C='jurnal-0f53e316';
 const FILES=['./','index.html','config.js','manifest.webmanifest','icon-192.png','icon-512.png'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>c.addAll(FILES)))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
